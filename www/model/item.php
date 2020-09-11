@@ -82,7 +82,7 @@ function insert_item($db, $name, $price, $stock, $filename, $status){
         image,
         status
       )
-    VALUES ?;
+    VALUES (?, ?, ?, ?, ?);
   ";
 
   return execute_query($db, $sql, [$name, $price, $stock, $filename, $status]);
@@ -93,13 +93,13 @@ function update_item_status($db, $item_id, $status){
     UPDATE
       items
     SET
-      status = {$status}
+      status = ?
     WHERE
       item_id = ?
     LIMIT 1
   ";
   
-  return execute_query($db, $sql, [$item_id]);
+  return execute_query($db, $sql, [$status, $item_id]);
 }
 
 function update_item_stock($db, $item_id, $stock){

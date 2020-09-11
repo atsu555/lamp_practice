@@ -70,7 +70,7 @@ function insert_cart($db, $user_id, $item_id, $amount = 1){
         user_id,
         amount
       )
-    VALUES ?
+    VALUES (?, ?, ?)
   ";
 
   return execute_query($db, $sql, [$user_id, $item_id, $amount]);
