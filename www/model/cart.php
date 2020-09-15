@@ -73,7 +73,7 @@ function insert_cart($db, $user_id, $item_id, $amount = 1){
     VALUES (?, ?, ?)
   ";
 
-  return execute_query($db, $sql, [$user_id, $item_id, $amount]);
+  return execute_query($db, $sql, [$item_id, $user_id, $amount]);
 }
 
 function update_cart_amount($db, $cart_id, $amount){
@@ -86,7 +86,7 @@ function update_cart_amount($db, $cart_id, $amount){
       cart_id = ?
     LIMIT 1
   ";
-  return execute_query($db, $sql, [$cart_id, $amount]);
+  return execute_query($db, $sql, [$amount, $cart_id]);
 }
 
 function delete_cart($db, $cart_id){
@@ -107,14 +107,14 @@ function purchase_carts($db, $carts){
   }
   foreach($carts as $cart){
     if(update_item_stock(
-        $db, 
-        $cart['item_id'], 
+        $db,
+        $cart['item_id'],
         $cart['stock'] - $cart['amount']
       ) === false){
       set_error($cart['name'] . 'の購入に失敗しました。');
     }
   }
-  
+
   delete_user_carts($db, $carts[0]['user_id']);
 }
 

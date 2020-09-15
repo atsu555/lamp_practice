@@ -84,8 +84,8 @@ function insert_item($db, $name, $price, $stock, $filename, $status){
       )
     VALUES (?, ?, ?, ?, ?);
   ";
-
-  return execute_query($db, $sql, [$name, $price, $stock, $filename, $status]);
+// var_dump($sql);
+  return execute_query($db, $sql, [$name, $price, $stock, $filename, $status_value]);
 }
 
 function update_item_status($db, $item_id, $status){
