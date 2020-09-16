@@ -4,7 +4,7 @@ require_once MODEL_PATH . 'functions.php';
 require_once MODEL_PATH . 'user.php';
 require_once MODEL_PATH . 'item.php';
 require_once MODEL_PATH . 'cart.php';
-require_once MODEL_PATH . 'purchase_history.php';
+
 
 session_start();
 
@@ -17,6 +17,6 @@ $user = get_login_user($db);
 
 $carts = get_user_carts($db, $user['user_id']);
 
-if(purchase_history($db, $carts) === false){
+if(purchase_history_details($db, $carts) === false){
     set_error('購入履歴を追加できませんでした。');
 }
