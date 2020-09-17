@@ -5,7 +5,7 @@ require_once MODEL_PATH . 'db.php';
 function get_user($db, $user_id){
   $sql = "
     SELECT
-      user_id, 
+      user_id,
       name,
       password,
       type
