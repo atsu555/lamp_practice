@@ -202,3 +202,40 @@ function insert_details($db, $order_id, $item_id, $price, $amount){
 
   return execute_query($db, $sql, [$order_id, $item_id, $price, $amount]);
 }
+
+function get_purchase_history($db){
+  $sql = "
+    SELECT
+      purchase_history.order_id,
+      purchase_history.order_date,
+      SUM(details.price)
+    FROM
+      purchase_history
+    JOIN
+      details
+    ON
+      purchase_history.order_id = details.order_id
+    GROUP BY
+      details.order_id
+  ";
+  return fetch_all_query($db, $sql);
+}
+
+function get_details($db){
+  $sql = "
+    SELECT
+      items.name,
+      details.price,
+      details.amount,
+      SUM(details.price)
+    FROM
+      items
+    JOIN
+      details
+    ON
+      items.item_id = details.item_id
+    GROUP BY
+      details.detail_id
+  ";
+  return fetch_all_query($db, $sql);
+}

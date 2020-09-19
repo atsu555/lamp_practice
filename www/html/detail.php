@@ -16,7 +16,7 @@ $db = get_db_connect();
 $user = get_login_user($db);
 
 // データ作成処理を呼び出す
-$histories = get_purchase_history($db);
+$details = get_details($db);
 
 
-include_once VIEW_PATH . 'purchase_history_view.php';
+include_once VIEW_PATH . 'detail_view.php';
