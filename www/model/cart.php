@@ -253,3 +253,23 @@ function get_details($db, $order_id, $user_id = null){
   return fetch_all_query($db, $sql, $params);
 }
 
+function get_purchase_history_detail_view($db, $order_id){
+  $sql = "
+    SELECT
+      purchase_history.order_date,
+      SUM(details.price * details.amount) as total
+    FROM
+      purchase_history
+    JOIN
+      details
+    ON
+      purchase_history.order_id = details.order_id
+    WHERE
+      details.order_id = ".$order_id."
+    GROUP BY
+      details.order_id
+  ";
+
+  return fetch_all_query($db, $sql);
+}
+

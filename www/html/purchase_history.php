@@ -22,6 +22,4 @@ if(is_admin($user)){
     $histories = get_purchase_history($db, $user['user_id']);
 }
 
-
-
 include_once VIEW_PATH . 'purchase_history_view.php';
