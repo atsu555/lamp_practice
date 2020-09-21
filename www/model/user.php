@@ -55,7 +55,7 @@ function regist_user($db, $name, $password, $password_confirmation) {
   if( is_valid_user($name, $password, $password_confirmation) === false){
     return false;
   }
-  
+
   return insert_user($db, $name, $password);
 }
 

@@ -203,39 +203,53 @@ function insert_details($db, $order_id, $item_id, $price, $amount){
   return execute_query($db, $sql, [$order_id, $item_id, $price, $amount]);
 }
 
-function get_purchase_history($db){
+function get_purchase_history($db, $user_id = null){
+  $params = array();
   $sql = "
     SELECT
       purchase_history.order_id,
       purchase_history.order_date,
-      SUM(details.price)
+      SUM(details.price * details.amount) as total
     FROM
       purchase_history
     JOIN
       details
     ON
-      purchase_history.order_id = details.order_id
-    GROUP BY
+      purchase_history.order_id = details.order_id";
+    if($user_id !== null){
+      $params[] = $user_id;
+      $sql .= " WHERE user_id = ?";
+    }
+    $sql .= " GROUP BY
       details.order_id
   ";
-  return fetch_all_query($db, $sql);
+
+  return fetch_all_query($db, $sql, $params);
 }
 
-function get_details($db){
+function get_details($db, $order_id, $user_id = null){
+  $params = array($order_id);
   $sql = "
     SELECT
       items.name,
       details.price,
       details.amount,
-      SUM(details.price)
+      details.price*details.amount as subtotal
     FROM
       items
     JOIN
       details
     ON
       items.item_id = details.item_id
-    GROUP BY
-      details.detail_id
+    WHERE
+      details.order_id = ?
   ";
-  return fetch_all_query($db, $sql);
+  if($user_id !== null){
+    $sql .= " AND exists(SELECT * FROM purchase_history WHERE order_id = ? AND user_id = ?)";
+    $params[] = $order_id;
+    $params[] = $user_id;
+  }
+
+  return fetch_all_query($db, $sql, $params);
 }
+
