@@ -17,7 +17,15 @@ $user = get_login_user($db);
 $order_id = get_get('order_id');
 
 // データ作成処理を呼び出す
-$details = get_details($db, $order_id);
-$histories = get_purchase_history_detail_view($db, $order_id);
+if(is_admin($user)){
+    $details = get_details($db, $order_id);
+}else{
+    $details = get_details($db, $order_id, $user['user_id']);
+}
+$histories = array();
+if(count($details) > 0){
+    $histories = get_purchase_history_detail_view($db, $order_id);
+}
+
 
 include_once VIEW_PATH . 'detail_view.php';

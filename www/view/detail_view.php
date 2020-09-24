@@ -12,8 +12,8 @@
 
   <div class="container">
     <h1>購入明細</h1>
-    <p>注文番号:<?php print $order_id; ?>
     <?php foreach($histories as $history){ ?>
+    <p>注文番号:<?php print (h($history['order_id'])); ?></p>
     <p>購入日時:<?php print(h($history['order_date']));?></p>
     <p>合計金額:<?php print(h($history['total']));?></p>
     <?php } ?>
