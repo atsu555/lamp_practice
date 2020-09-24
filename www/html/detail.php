@@ -14,12 +14,18 @@ if(is_logined() === false){
 
 $db = get_db_connect();
 $user = get_login_user($db);
+$order_id = get_get('order_id');
 
 // データ作成処理を呼び出す
 if(is_admin($user)){
-    $histories = get_purchase_history($db);
+    $details = get_details($db, $order_id);
 }else{
-    $histories = get_purchase_history($db, $user['user_id']);
+    $details = get_details($db, $order_id, $user['user_id']);
+}
+$histories = array();
+if(count($details) > 0){
+    $histories = get_purchase_history_detail_view($db, $order_id);
 }
 
-include_once VIEW_PATH . 'purchase_history_view.php';
+
+include_once VIEW_PATH . 'detail_view.php';
