@@ -7,7 +7,7 @@ require_once MODEL_PATH . 'db.php';
 function get_item($db, $item_id){
   $sql = "
     SELECT
-      item_id, 
+      item_id,
       name,
       stock,
       price,
@@ -205,4 +205,32 @@ function is_valid_item_status($status){
     $is_valid = false;
   }
   return $is_valid;
+}
+// 人気ランキング
+// 購入数が多い順に表示させる。
+function get_popular_items($db){
+  $sql="
+  SELECT
+    details.item_id,
+    items.name,
+    items.stock,
+    items.price,
+    items.image,
+    items.status,
+    SUM(details.amount) as 購入数
+  FROM
+    details
+  INNER JOIN
+    items
+  ON
+    details.item_id = items.item_id
+  GROUP BY
+    details.item_id
+  ORDER BY
+    購入数 DESC
+  LIMIT
+    3
+  ";
+
+  return fetch_all_query($db, $sql);
 }
