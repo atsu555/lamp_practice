@@ -256,6 +256,7 @@ function get_details($db, $order_id, $user_id = null){
 function get_purchase_history_detail_view($db, $order_id){
   $sql = "
     SELECT
+      details.order_id,
       purchase_history.order_date,
       SUM(details.price * details.amount) as total
     FROM
