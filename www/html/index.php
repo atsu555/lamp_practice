@@ -15,4 +15,8 @@ $user = get_login_user($db);
 
 $items = get_open_items($db);
 
+// 人気ランキング
+$popular_items = get_popular_items($db);
+
+
 include_once VIEW_PATH . 'index_view.php';

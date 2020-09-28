@@ -40,8 +40,23 @@
         </div>
       <?php } ?>
       </div>
+        <div>
+          <h2>人気ランキング</h2>
+          <?php foreach($popular_items as $item){ ?>
+          <div class="col-6 item">
+            <div class="card-header">
+              <?php print(h($item['name'])); ?>
+            </div>
+            <figure class="card-body">
+              <img class="card-img" src="<?php print(IMAGE_PATH . h($item['image'])); ?>">
+              <figcaption>
+              <p><?php print(number_format(h($item['price']))); ?>円</p>
+              </figcaption>
+            </figure>
+          </div>
+          <?php } ?>
+        </div>
     </div>
   </div>
-  
 </body>
 </html>
